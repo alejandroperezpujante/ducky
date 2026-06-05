@@ -19,7 +19,7 @@ final class CreatePostTable implements MigratesUp, MigratesDown
         return CreateTableStatement::forModel(Post::class)
             ->primary()
             ->varchar('slug')
-            ->text('content')
+            ->text('content', length: 140)
             ->datetime('createdAt')
             ->datetime('updatedAt', nullable: true)
             ->unique('slug');
