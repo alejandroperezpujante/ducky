@@ -1,4 +1,5 @@
 <?php
+
 /** @var null|string $label The submit button's label */
 ?>
 

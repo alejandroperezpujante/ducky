@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SEE: docs/1-essentials/02-views.md for usage instructions
  * @var string|null $name
