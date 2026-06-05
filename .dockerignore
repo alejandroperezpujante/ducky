@@ -1,0 +1,38 @@
+# Deps — reinstalled inside the container
+node_modules/
+vendor/
+
+# Tempest runtime cache — regenerated at container boot
+.tempest/
+
+# Secrets — never bake into the image
+.env
+
+# Front-end build output — regenerated in the frontend stage
+public/build/
+public/main.css
+
+# Dev/test artifacts
+tests/
+.phpunit.result.cache
+phpunit.xml
+mago.toml
+.phpactor.json
+
+# Version control
+.git/
+.gitattributes
+.gitignore
+
+# Docker files themselves (no need to layer inside the image)
+# NOTE: docker/ is intentionally NOT ignored — Dockerfile COPYs from it
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Deployment script
+deploy.sh
+
+# IDE
+.idea/
+.vscode/
