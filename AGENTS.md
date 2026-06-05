@@ -9,15 +9,15 @@ This file provides guidance to AI models when working with code in this reposito
 composer dev
 
 # Tests
-composer phpunit
-vendor/bin/phpunit --filter <methodName>          # single test by name
-vendor/bin/phpunit tests/HomeControllerTest.php   # single file
+composer pest
+vendor/bin/pest --filter "test name"             # single test by name
+vendor/bin/pest tests/PostControllerTest.php     # single file
 
 # Format / lint
 composer fmt     # mago fmt (format only)
 composer lint    # mago lint --fix --format-after-fix
 
-# Full QA gate (fmt → phpunit → lint)
+# Full QA gate (fmt → pest → lint)
 composer qa
 
 # Console CLI
@@ -47,7 +47,7 @@ Views are `*.view.php` files returned with `view('./relative/path.view.php')`. T
 Entrypoint files follow the `app/*.entrypoint.ts` / `*.entrypoint.css` naming convention. `vite-plugin-tempest` discovers them automatically; assets are injected by `<x-vite-tags/>` in the layout. `vite build` shells out to `php tempest vite:config`, so PHP + `vendor/` must exist at build time.
 
 ### Tests
-Tests extend `Tests\IntegrationTestCase` (which wraps Tempest's `IntegrationTest`). Use `$this->http->get(...)` with fluent assertions (`assertOk`, `assertSee`). PHPUnit `#[Test]` attribute marks test methods. Test environment is configured in `phpunit.xml` (`ENVIRONMENT=testing`, `CACHE=null`).
+Tests use [Pest](https://pestphp.com/) with `it()/test()` closures. `$this->` in closures binds to `Tests\IntegrationTestCase` (wraps Tempest's `IntegrationTest`) via `tests/Pest.php`. Use `$this->http->get(...)` with fluent assertions (`assertOk`, `assertSee`). Test environment is configured in `phpunit.xml` (`ENVIRONMENT=testing`, `CACHE=null`).
 
 ### Docker deploy
 `Dockerfile` has three stages: `build` (Composer + Node/Vite), `app` (php-fpm), `web` (nginx). `docker-compose.yml` wires `app:9000` → nginx. `deploy.sh` is the production deploy script (run on the server after SSH login: pull → build → cache:clear → discovery:generate → `docker compose up -d`). The container entrypoint (`docker/php/entrypoint.sh`) repeats cache:clear + discovery:generate on every boot. DB-migration and static-page steps are stubbed in both files — uncomment when needed.

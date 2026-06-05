@@ -5,7 +5,7 @@
     "tempest/framework": "^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^12.5.8",
+    "pestphp/pest": "^3.0",
     "carthage-software/mago": "^1.0"
   },
   "autoload": {
@@ -31,12 +31,12 @@
       "Composer\\Config::disableProcessTimeout",
       "pnpx concurrently -c \"#93c5fd,#c4b5fd\" \"php tempest serve\" \"pnpm run dev\" --names=server,vite --kill-others"
     ],
-    "phpunit": "vendor/bin/phpunit --display-warnings --display-skipped --display-deprecations --display-errors --display-notices",
+    "pest": "vendor/bin/pest",
     "fmt": "vendor/bin/mago fmt",
     "lint": "vendor/bin/mago lint --fix --format-after-fix",
     "qa": [
       "composer fmt",
-      "composer phpunit",
+      "composer pest",
       "composer lint"
     ]
   },
@@ -46,7 +46,8 @@
   "config": {
     "allow-plugins": {
       "php-http/discovery": true,
-      "carthage-software/mago": true
+      "carthage-software/mago": true,
+      "pestphp/pest-plugin": true
     }
   }
 }
