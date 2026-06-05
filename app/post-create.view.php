@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @var string $action
+ */
+
 ?>
 
 <x-base :title="'New Post'">
@@ -14,7 +18,7 @@
 
             <section class="px-6 pb-12">
                 <div class="max-w-2xl mx-auto bg-white rounded-bubble shadow-soft p-6">
-                    <x-post-form :action="uri([PostController::class, 'store'])" :submit-label="'Create post'"/>
+                    <x-post-form :action="$action" :submit-label="'Create post'"/>
                 </div>
                 <div class="max-w-2xl mx-auto mt-4 text-center">
                     <a href="/" class="text-sm text-ink-400 hover:text-ink-600 transition-colors">← Back to posts</a>

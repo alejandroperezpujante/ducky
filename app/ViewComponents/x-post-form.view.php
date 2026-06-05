@@ -3,11 +3,12 @@
 use Tempest\Http\Method;
 
 /**
- * @var string $action              Form submission URL
- * @var string|Method|null $method  HTTP method (default POST, PATCH for update)
- * @var string|null $content        Pre-filled content value (edit mode)
- * @var string|null $submitLabel    Label for the submit button
+ * @var string $action
+ * @var string|Method|null $method
+ * @var string|null $content        Pre-filled content value (view data from controller on edit)
+ * @var string|null $submitLabel
  */
+
 ?>
 
 <x-form :action="$action" :method="$method ?? Method::POST">

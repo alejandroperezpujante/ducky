@@ -2,11 +2,8 @@
 
 /**
  * @var \Tempest\Support\Paginator\PaginatedData $posts
+ * Each item in $posts->data is an array with keys: post, editUrl, deleteUrl
  */
-
-use App\PostController;
-
-use function Tempest\Router\uri;
 
 ?>
 
@@ -26,21 +23,18 @@ use function Tempest\Router\uri;
             <section class="px-6 pb-12">
                 <ul class="max-w-2xl mx-auto grid gap-3 list-none p-0 m-0">
 
-                    <li :foreach="$posts->data as $post" class="bg-white rounded-bubble shadow-soft p-4 flex flex-col gap-2">
+                    <li :foreach="$posts->data as $row" class="bg-white rounded-bubble shadow-soft p-4 flex flex-col gap-2">
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex flex-col gap-1 min-w-0">
-                                <span class="text-xs text-ink-400 font-mono">#{{ $post->id }} · {{ $post->slug }}</span>
-                                <p class="text-sm text-ink-800 leading-relaxed">{{ $post->content }}</p>
-                                <span class="text-xs text-ink-400">{{ $post->createdAt }}</span>
+                                <span class="text-xs text-ink-400 font-mono">#{{ $row['post']->id }} · {{ $row['post']->slug }}</span>
+                                <p class="text-sm text-ink-800 leading-relaxed">{{ $row['post']->content }}</p>
+                                <span class="text-xs text-ink-400">{{ $row['post']->createdAt }}</span>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <a href="<?= uri(
-                                    [PostController::class, 'edit'],
-                                    post: $post->slug,
-                                ) ?>" class="text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">
+                                <a :href="$row['editUrl']" class="text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">
                                     Edit
                                 </a>
-                                <x-form :action="uri([PostController::class, 'delete'], post: $post->slug)" :method="'DELETE'">
+                                <x-form :action="$row['deleteUrl']" :method="'DELETE'">
                                     <x-submit label="Delete"/>
                                 </x-form>
                             </div>

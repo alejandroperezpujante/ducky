@@ -23,7 +23,13 @@ final readonly class PostController
     public function index(Request $request): View
     {
         $page = max(1, (int) ($request->get('page') ?? 1));
-        $posts = Post::select()->paginate(itemsPerPage: 10, currentPage: $page);
+        $posts = Post::select()
+            ->paginate(itemsPerPage: 10, currentPage: $page)
+            ->map(static fn (Post $post) => [
+                'post' => $post,
+                'editUrl' => uri([self::class, 'edit'], post: $post->slug),
+                'deleteUrl' => uri([self::class, 'delete'], post: $post->slug),
+            ]);
 
         return view('./post-index.view.php', posts: $posts);
     }
@@ -31,7 +37,7 @@ final readonly class PostController
     #[Get('/posts/create')]
     public function create(): View
     {
-        return view('./post-create.view.php');
+        return view('./post-create.view.php', action: uri([self::class, 'store']));
     }
 
     #[PostRoute('/posts')]
@@ -49,7 +55,12 @@ final readonly class PostController
     #[Get('/posts/{post}/edit')]
     public function edit(Post $post): View
     {
-        return view('./post-edit.view.php', post: $post);
+        return view(
+            './post-edit.view.php',
+            post: $post,
+            action: uri([self::class, 'update'], post: $post->slug),
+            content: $post->content,
+        );
     }
 
     #[Patch('/posts/{post}')]

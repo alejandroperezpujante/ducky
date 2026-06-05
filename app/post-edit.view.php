@@ -2,6 +2,7 @@
 
 /**
  * @var \App\Post $post
+ * @var string $action
  */
 
 ?>
@@ -20,9 +21,8 @@
             <section class="px-6 pb-12">
                 <div class="max-w-2xl mx-auto bg-white rounded-bubble shadow-soft p-6">
                     <x-post-form
-                        :action="uri([PostController::class, 'update'], post: $post->slug)"
+                        :action="$action"
                         :method="'PATCH'"
-                        :content="$post->content"
                         :submit-label="'Save changes'"
                     />
                 </div>
