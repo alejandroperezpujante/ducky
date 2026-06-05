@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Post;
 
 use Tempest\Database\DatabaseSeeder;
 use Tempest\DateTime\DateTime;
@@ -33,7 +33,6 @@ final class PostSeeder implements DatabaseSeeder
 
         foreach ($samples as $content) {
             Post::create(
-                slug: Post::generateSlug(),
                 content: $content,
                 createdAt: DateTime::now(),
             );

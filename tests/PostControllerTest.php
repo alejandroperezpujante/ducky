@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Post;
-use App\PostController;
+use App\Post\Post;
+use App\Post\PostController;
 use Tempest\DateTime\DateTime;
 
 use function Tempest\Router\uri;

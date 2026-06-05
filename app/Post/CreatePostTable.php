@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Post;
 
 use Tempest\Database\MigratesDown;
 use Tempest\Database\MigratesUp;
