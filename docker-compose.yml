@@ -7,6 +7,8 @@ services:
     volumes:
       # Persist writable Tempest cache (.tempest/) across container restarts
       - tempest_cache:/var/www/html/.tempest
+      # Persist SQLite database file across deploys (image is replaced each deploy)
+      - database_data:/var/www/html/database
     expose:
       - "9000"
     restart: unless-stopped
@@ -24,3 +26,5 @@ services:
 volumes:
   # Named volume keeps session + runtime cache across deploys
   tempest_cache:
+  # Named volume keeps SQLite database file across deploys
+  database_data:

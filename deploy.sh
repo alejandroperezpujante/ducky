@@ -16,9 +16,8 @@ docker compose run --rm app php /var/www/html/tempest cache:clear --force --inte
 echo "==> Regenerating discovery cache..."
 docker compose run --rm app php /var/www/html/tempest discovery:generate --no-interaction
 
-# Uncomment when a database is introduced:
-# echo "==> Running migrations..."
-# docker compose run --rm app php /var/www/html/tempest migrate:up --force
+echo "==> Running migrations..."
+docker compose run --rm app php /var/www/html/tempest migrate:up --force
 
 # Uncomment when static pages are used:
 # echo "==> Regenerating static pages..."

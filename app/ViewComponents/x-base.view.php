@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var string|null $title The webpage's title
  */

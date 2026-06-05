@@ -51,11 +51,13 @@ COPY --from=build /build .
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Ensure .tempest cache dir exists and is writable by www-data (php-fpm user)
-RUN mkdir -p .tempest \
+# Ensure .tempest cache dir and database dir exist and are writable by www-data (php-fpm user)
+# The database/ dir is mounted as a named volume — creating it here sets ownership
+# so the volume inherits www-data:www-data on first mount.
+RUN mkdir -p .tempest database \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
-    && chmod -R 775 /var/www/html/.tempest
+    && chmod -R 775 /var/www/html/.tempest /var/www/html/database
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
