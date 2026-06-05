@@ -1,1 +1,90 @@
 @import "tailwindcss";
+
+@theme {
+    /* ── Typography ── */
+    --font-sans: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+    --font-display: "Nunito", ui-rounded, system-ui, sans-serif;
+
+    /* ── Cream (warm white surfaces) ── */
+    --color-cream-50: #fffefb;
+    --color-cream-100: #fdf9f1;
+    --color-cream-200: #f6efe2;
+    --color-cream-300: #ece0cc;
+    --color-cream-400: #d9ccb4;
+    --color-cream-500: #c4b498;
+
+    /* ── Yellow (butter accent) ── */
+    --color-yellow-50: #fffbe9;
+    --color-yellow-100: #fff3c0;
+    --color-yellow-200: #ffe896;
+    --color-yellow-300: #ffdb66;
+    --color-yellow-400: #f7c948;
+    --color-yellow-500: #e8b62c;
+    --color-yellow-600: #c99418;
+
+    /* ── Coral (pastel red) ── */
+    --color-coral-50: #fff1f0;
+    --color-coral-100: #ffdad6;
+    --color-coral-200: #ffb6ae;
+    --color-coral-300: #ff928a;
+    --color-coral-400: #f76f67;
+    --color-coral-500: #e8554d;
+    --color-coral-600: #cc3b34;
+
+    /* ── Teal (pastel mint-teal) ── */
+    --color-teal-50: #effdf9;
+    --color-teal-100: #c9f5eb;
+    --color-teal-200: #97ebda;
+    --color-teal-300: #5fdcc7;
+    --color-teal-400: #2dc4b0;
+    --color-teal-500: #16a695;
+    --color-teal-600: #0d8a7c;
+
+    /* ── Ink (warm neutral text) ── */
+    --color-ink-50: #faf9f7;
+    --color-ink-100: #f0ede8;
+    --color-ink-200: #ddd7ce;
+    --color-ink-300: #c4bbb0;
+    --color-ink-400: #9b948a;
+    --color-ink-500: #7d766e;
+    --color-ink-600: #6b655d;
+    --color-ink-700: #4d4842;
+    --color-ink-800: #38342f;
+    --color-ink-900: #28251f;
+
+    /* ── Border radius (bubbly) ── */
+    --radius-lg: 0.875rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.75rem;
+    --radius-3xl: 2.5rem;
+    --radius-bubble: 2rem;
+
+    /* ── Shadows (soft pastel) ── */
+    --shadow-soft: 0 8px 24px -8px rgb(232 182 44 / 0.18);
+    --shadow-pop: 0 12px 32px -10px rgb(45 196 176 / 0.25);
+}
+
+@layer base {
+    body {
+        min-height: 100dvh;
+        background-color: var(--color-cream-50);
+        color: var(--color-ink-800);
+        font-family: var(--font-sans);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        color: var(--color-ink-900);
+    }
+
+    *:focus-visible {
+        outline: 2px solid var(--color-yellow-400);
+        outline-offset: 2px;
+    }
+}

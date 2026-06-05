@@ -1,33 +1,74 @@
 <x-base :title="Tempest\env('APP_TITLE', default: 'Tempest Scaffold')">
-  <main class="bg-sky-100/20 w-screen h-screen overflow-hidden">
-    <div class="isolate relative flex flex-col justify-center items-center px-6 lg:px-8 h-full">
-      <!-- Background gradient -->
-      <div class="-top-40 sm:-top-80 -z-10 absolute inset-x-0 blur-3xl overflow-hidden transform-gpu pointer-events-none" aria-hidden="true">
+  <main class="w-full">
+    <div class="isolate relative">
+
+      <!-- Top blob: yellow → coral -->
+      <div class="-top-20 -z-10 absolute inset-x-0 blur-3xl overflow-hidden transform-gpu pointer-events-none" aria-hidden="true">
         <div
-            class="left-[calc(50%-11rem)] sm:left-[calc(50%-30rem)] relative bg-gradient-to-tr from-[#7fbdea] to-[#9980fc] opacity-20 w-[36.125rem] sm:w-[72.1875rem] aspect-[1155/678] rotate-[30deg] -translate-x-1/2"
+            class="left-[calc(50%-8rem)] relative bg-gradient-to-tr from-yellow-200 to-coral-200 opacity-50 w-[28rem] sm:w-[60rem] aspect-[1155/678] rotate-[30deg] -translate-x-1/2"
             style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
         ></div>
       </div>
-      <!-- Bottom gradient -->
-      <div class="top-[calc(100%-13rem)] sm:top-[calc(100%-30rem)] -z-10 absolute inset-x-0 blur-3xl overflow-hidden transform-gpu pointer-events-none" aria-hidden="true">
-        <div class="left-[calc(50%+3rem)] sm:left-[calc(50%+36rem)] relative bg-gradient-to-tr from-[#7fbdea] to-[#9980fc] opacity-20 w-[36.125rem] sm:w-[72.1875rem] aspect-[1155/678] -translate-x-1/2" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-      </div>
-      <!-- Hero section -->
-      <div class="mx-auto py-32 sm:py-48 lg:py-56 max-w-2xl">
-        <div class="text-center">
-          <!-- Text -->
-          <h1 class="font-semibold text-gray-800 text-5xl sm:text-7xl text-balance tracking-tight">Tempest</h1>
-          <p class="mt-8 font-medium text-gray-500 text-lg sm:text-xl/8 text-pretty">The PHP framework that gets out of your way.</p>
-          <!-- CTAs -->
-          <div class="flex sm:flex-row flex-col justify-center items-center gap-x-6 gap-y-4 mt-10">
-            <a href="https://tempestphp.com/docs" target="_blank" class="bg-sky-600 hover:bg-sky-500 shadow-sm px-3.5 py-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-sky-600 focus-visible:outline-offset-2 font-semibold text-white text-sm">Documentation</a>
-            <a href="https://tempestphp.com/discord" class="focus-visible:outline-none font-semibold text-gray-900 text-sm/6 focus-visible:decoration-gray-300 focus-visible:underline focus-visible:underline-offset-4">
-              Join our Discord
-              <span aria-hidden="true">→</span>
+
+      <!-- Hero -->
+      <section class="flex flex-col items-center px-6 pt-24 pb-10 text-center">
+        <div class="max-w-sm w-full">
+          <h1 class="text-6xl sm:text-7xl text-balance">Tempest</h1>
+          <p class="mt-4 text-ink-600 text-lg sm:text-xl leading-relaxed text-pretty font-medium">
+            The PHP framework that gets out of your way.
+          </p>
+          <nav class="flex flex-col sm:flex-row justify-center items-center gap-3 mt-8">
+            <a
+                href="https://tempestphp.com/docs"
+                target="_blank"
+                class="px-6 py-3 bg-yellow-300 hover:bg-yellow-400 text-ink-900 font-bold rounded-full shadow-soft text-sm w-full sm:w-auto"
+            >
+              Documentation
             </a>
-          </div>
+            <a
+                href="https://tempestphp.com/discord"
+                class="px-6 py-3 bg-teal-100 hover:bg-teal-200 text-teal-600 font-bold rounded-full text-sm w-full sm:w-auto"
+            >
+              Join our Discord →
+            </a>
+          </nav>
         </div>
-      </div>
+      </section>
+
+      <!-- Palette showcase cards -->
+      <section class="px-6 pb-12">
+        <ul class="max-w-sm mx-auto grid grid-cols-3 gap-3 list-none p-0 m-0">
+
+          <!-- Coral -->
+          <li class="bg-white rounded-bubble shadow-soft p-4 flex flex-col gap-2">
+            <span class="w-9 h-9 rounded-full bg-coral-100 flex items-center justify-center">
+              <span class="text-coral-500 text-base font-bold">♥</span>
+            </span>
+            <h2 class="font-bold text-ink-800 text-sm">Coral</h2>
+            <p class="text-xs text-ink-400 leading-snug">Warm &amp; cozy</p>
+          </li>
+
+          <!-- Teal -->
+          <li class="bg-white rounded-bubble shadow-pop p-4 flex flex-col gap-2">
+            <span class="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center">
+              <span class="text-teal-500 text-base font-bold">✦</span>
+            </span>
+            <h2 class="font-bold text-ink-800 text-sm">Teal</h2>
+            <p class="text-xs text-ink-400 leading-snug">Fresh &amp; cool</p>
+          </li>
+
+          <!-- Yellow -->
+          <li class="bg-white rounded-bubble shadow-soft p-4 flex flex-col gap-2">
+            <span class="w-9 h-9 rounded-full bg-yellow-100 flex items-center justify-center">
+              <span class="text-yellow-500 text-base font-bold">★</span>
+            </span>
+            <h2 class="font-bold text-ink-800 text-sm">Yellow</h2>
+            <p class="text-xs text-ink-400 leading-snug">Bright &amp; fun</p>
+          </li>
+
+        </ul>
+      </section>
+
     </div>
   </main>
 </x-base>
