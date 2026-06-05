@@ -1,29 +1,17 @@
 # ─────────────────────────────────────────────────────────────
-# Stage 1: front-end assets (pnpm + Vite)
+# Stage 1: build — PHP+Composer AND Node+Vite assets
+# vite-plugin-tempest shells out to `php tempest vite:config`
+# during `vite build`, so PHP + vendor/ must exist in this stage.
 # ─────────────────────────────────────────────────────────────
-FROM node:22-alpine AS frontend
+FROM composer:2 AS build
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN apk add --no-cache icu-dev nodejs npm \
+    && docker-php-ext-install intl \
+    && npm install -g pnpm
 
 WORKDIR /build
 
-# Layer-cache dependency install separately from source copy
-COPY package.json pnpm-lock.yaml vite.config.ts ./
-COPY app/ ./app/
-
-RUN pnpm install --frozen-lockfile
-
-# Produce public/build/ and public/main.css
-RUN pnpm run build
-
-# ─────────────────────────────────────────────────────────────
-# Stage 2: PHP vendor directory (Composer)
-# ─────────────────────────────────────────────────────────────
-FROM composer:2 AS vendor
-
-WORKDIR /build
-
-# Install deps first (no scripts) for better layer caching
+# Composer deps first (layer cache); --no-scripts: source not present yet
 COPY composer.json composer.lock ./
 RUN composer install \
     --no-dev \
@@ -32,12 +20,15 @@ RUN composer install \
     --no-progress \
     --no-interaction
 
-# Copy full app source
+# Node deps (layer cache)
+COPY package.json pnpm-lock.yaml vite.config.ts ./
+RUN pnpm install --frozen-lockfile
+
+# Full source — needed for `php tempest vite:config` to discover entrypoints
 COPY . .
 
-# Copy compiled front-end assets
-COPY --from=frontend /build/public/build/ ./public/build/
-COPY --from=frontend /build/public/main.css ./public/main.css
+# PHP + vendor/ + source all present → Vite build succeeds
+RUN pnpm run build
 
 # Re-dump autoload (triggers post-autoload-dump → discovery:generate)
 RUN composer dump-autoload --no-dev
@@ -54,7 +45,7 @@ RUN apk add --no-cache icu-dev \
 WORKDIR /var/www/html
 
 # Copy application
-COPY --from=vendor /build .
+COPY --from=build /build .
 
 # Copy entrypoint
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -75,7 +66,7 @@ CMD ["php-fpm"]
 FROM nginx:alpine AS web
 
 # Copy only the public web root (static assets + front controller)
-COPY --from=vendor /build/public /var/www/html/public
+COPY --from=build /build/public /var/www/html/public
 
 # nginx configuration
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
