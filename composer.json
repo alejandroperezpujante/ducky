@@ -2,7 +2,8 @@
   "name": "tempest/app",
   "type": "project",
   "require": {
-    "tempest/framework": "^3.0"
+    "tempest/framework": "^3.0",
+    "hidehalo/nanoid-php": "^2.0"
   },
   "require-dev": {
     "pestphp/pest": "^3.0",
