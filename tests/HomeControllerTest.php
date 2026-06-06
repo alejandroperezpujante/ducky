@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Authentication\User;
-use App\Post\Post;
+use App\Accounts\User;
+use App\Posts\Post;
 use Tempest\DateTime\DateTime;
 
 it('lists posts on the home page', function () {
@@ -35,5 +35,8 @@ it('paginates posts on second page', function () {
         );
     }
 
-    $this->http->get('/', query: ['page' => 2])->assertOk()->assertSee('Post number 11');
+    $this->http
+        ->get('/', query: ['page' => 2])
+        ->assertOk()
+        ->assertSee('Post number 11');
 });

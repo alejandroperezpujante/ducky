@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Authentication\User;
-use App\Post\Post;
-use App\Post\PostController;
+use App\Accounts\User;
+use App\Posts\Post;
+use App\Posts\PostController;
 use Tempest\Auth\Authentication\Authenticator;
 use Tempest\DateTime\DateTime;
 
@@ -28,7 +28,9 @@ it('shows the create form for authenticated user', function () {
 it('redirects unauthenticated user away from post store', function () {
     $this->database->setup();
 
-    $this->http->post('/posts', ['content' => 'Brand new content'])->assertRedirect('/login');
+    $this->http
+        ->post('/posts', ['content' => 'Brand new content'])
+        ->assertRedirect('/login');
 });
 
 it('creates a post', function () {
@@ -37,7 +39,9 @@ it('creates a post', function () {
     $user = User::create(email: 'a@ducky.test', password: 'password1234');
     $this->container->get(Authenticator::class)->authenticate($user);
 
-    $this->http->post('/posts', ['content' => 'Brand new content'])->assertRedirect();
+    $this->http
+        ->post('/posts', ['content' => 'Brand new content'])
+        ->assertRedirect();
 
     $this->database->assertTableHasRow('posts', content: 'Brand new content');
 });
@@ -48,7 +52,9 @@ it('rejects empty content on create', function () {
     $user = User::create(email: 'a@ducky.test', password: 'password1234');
     $this->container->get(Authenticator::class)->authenticate($user);
 
-    $this->http->post('/posts', ['content' => ''])->assertHasValidationError('content');
+    $this->http
+        ->post('/posts', ['content' => ''])
+        ->assertHasValidationError('content');
 });
 
 it('shows the edit form for the owner', function () {
@@ -103,10 +109,9 @@ it('updates a post', function () {
     );
 
     $this->http
-        ->patch(
-            uri([PostController::class, 'update'], post: $post->slug),
-            ['content' => 'After update'],
-        )
+        ->patch(uri([PostController::class, 'update'], post: $post->slug), [
+            'content' => 'After update',
+        ])
         ->assertRedirect();
 
     $this->database->assertTableHasRow('posts', content: 'After update');
@@ -127,10 +132,9 @@ it('redirects non-owner away from update', function () {
     );
 
     $this->http
-        ->patch(
-            uri([PostController::class, 'update'], post: $post->slug),
-            ['content' => 'Hijacked'],
-        )
+        ->patch(uri([PostController::class, 'update'], post: $post->slug), [
+            'content' => 'Hijacked',
+        ])
         ->assertRedirect('/');
 
     $this->database->assertTableHasRow('posts', content: 'Before update');
@@ -149,9 +153,14 @@ it('deletes a post', function () {
         createdAt: DateTime::now(),
     );
 
-    $this->http->delete(uri([PostController::class, 'delete'], post: $post->slug))->assertRedirect();
+    $this->http
+        ->delete(uri([PostController::class, 'delete'], post: $post->slug))
+        ->assertRedirect();
 
-    $this->database->assertTableDoesNotHaveRow('posts', content: 'To be deleted');
+    $this->database->assertTableDoesNotHaveRow(
+        'posts',
+        content: 'To be deleted',
+    );
 });
 
 it('redirects non-owner away from delete', function () {
@@ -168,7 +177,9 @@ it('redirects non-owner away from delete', function () {
         createdAt: DateTime::now(),
     );
 
-    $this->http->delete(uri([PostController::class, 'delete'], post: $post->slug))->assertRedirect('/');
+    $this->http
+        ->delete(uri([PostController::class, 'delete'], post: $post->slug))
+        ->assertRedirect('/');
 
     $this->database->assertTableHasRow('posts', content: 'To be deleted');
 });
