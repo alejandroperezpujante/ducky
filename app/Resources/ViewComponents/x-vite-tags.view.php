@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var array|null $entrypoints
  * @var string|null $entrypoint
