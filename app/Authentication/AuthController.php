@@ -56,10 +56,18 @@ final readonly class AuthController
     #[PostRoute('/register', middleware: [RedirectIfAuthenticated::class])]
     public function register(RegisterRequest $request): Redirect|Back
     {
-        $exists = User::find(email: $request->email)->first();
+        $emailExists = User::find(email: $request->email)->first();
 
-        if ($exists !== null) {
+        if ($emailExists !== null) {
             $this->session->flash('error', 'An account with that email already exists.');
+
+            return new Back('/register');
+        }
+
+        $usernameExists = User::find(username: $request->username)->first();
+
+        if ($usernameExists !== null) {
+            $this->session->flash('error', 'That username is already taken.');
 
             return new Back('/register');
         }
@@ -67,6 +75,7 @@ final readonly class AuthController
         $user = User::create(
             email: $request->email,
             password: $request->password,
+            username: $request->username,
         );
 
         $this->authenticator->authenticate($user);

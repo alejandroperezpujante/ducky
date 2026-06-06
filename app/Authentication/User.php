@@ -35,10 +35,18 @@ final class User implements Authenticatable, Bindable
         public string $email,
         #[Hashed, Hidden, SensitiveParameter]
         public ?string $password,
+        public ?string $username = null,
+        public ?string $displayName = null,
+        public ?string $avatarPath = null,
         /** @var Post[] */
         #[HasMany]
         public array $posts = [],
     ) {}
+
+    public function name(): string
+    {
+        return $this->displayName ?? $this->username ?? '';
+    }
 
     public static function resolve(string $input): ?self
     {

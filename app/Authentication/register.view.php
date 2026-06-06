@@ -23,6 +23,7 @@ $error ??= null;
 
                     <x-form :action="'/register'" :method="'POST'">
                         <div class="flex flex-col gap-4">
+                            <x-input name="username" :label="'Username'"/>
                             <x-input name="email" type="email" :label="'Email'"/>
                             <x-input name="password" type="password" :label="'Password'" />
                             <x-submit :label="'Create Account'"/>

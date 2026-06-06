@@ -20,7 +20,7 @@ it('shows the register form', function () {
 it('redirects authenticated user away from login', function () {
     $this->database->setup();
 
-    $user = User::create(email: 'auth@ducky.test', password: 'password1234');
+    $user = User::create(email: 'auth@ducky.test', password: 'password1234', username: 'authuser');
     $this->container->get(Authenticator::class)->authenticate($user);
 
     $this->http->get('/login')->assertRedirect('/');
@@ -29,7 +29,7 @@ it('redirects authenticated user away from login', function () {
 it('redirects authenticated user away from register', function () {
     $this->database->setup();
 
-    $user = User::create(email: 'auth@ducky.test', password: 'password1234');
+    $user = User::create(email: 'auth@ducky.test', password: 'password1234', username: 'authuser');
     $this->container->get(Authenticator::class)->authenticate($user);
 
     $this->http->get('/register')->assertRedirect('/');
@@ -39,7 +39,7 @@ it('registers a new user', function () {
     $this->database->setup();
 
     $this->http
-        ->post('/register', ['email' => 'new@ducky.test', 'password' => 'password1234'])
+        ->post('/register', ['username' => 'newuser', 'email' => 'new@ducky.test', 'password' => 'password1234'])
         ->assertRedirect('/');
 
     $this->database->assertTableHasRow('users', email: 'new@ducky.test');
@@ -48,10 +48,22 @@ it('registers a new user', function () {
 it('rejects duplicate email on register', function () {
     $this->database->setup();
 
-    User::create(email: 'taken@ducky.test', password: 'password1234');
+    User::create(email: 'taken@ducky.test', password: 'password1234', username: 'takenuser');
 
     $this->http
-        ->post('/register', ['email' => 'taken@ducky.test', 'password' => 'password1234'])
+        ->post('/register', ['username' => 'other', 'email' => 'taken@ducky.test', 'password' => 'password1234'])
+        ->assertRedirect();
+
+    expect(User::count()->execute())->toBe(1);
+});
+
+it('rejects duplicate username on register', function () {
+    $this->database->setup();
+
+    User::create(email: 'first@ducky.test', password: 'password1234', username: 'takenname');
+
+    $this->http
+        ->post('/register', ['username' => 'takenname', 'email' => 'second@ducky.test', 'password' => 'password1234'])
         ->assertRedirect();
 
     expect(User::count()->execute())->toBe(1);
@@ -60,7 +72,7 @@ it('rejects duplicate email on register', function () {
 it('logs in with valid credentials', function () {
     $this->database->setup();
 
-    User::create(email: 'login@ducky.test', password: 'password1234');
+    User::create(email: 'login@ducky.test', password: 'password1234', username: 'loginuser');
 
     $this->http
         ->post('/login', ['email' => 'login@ducky.test', 'password' => 'password1234'])
@@ -70,7 +82,7 @@ it('logs in with valid credentials', function () {
 it('rejects invalid credentials', function () {
     $this->database->setup();
 
-    User::create(email: 'login@ducky.test', password: 'password1234');
+    User::create(email: 'login@ducky.test', password: 'password1234', username: 'loginuser');
 
     $this->http
         ->post('/login', ['email' => 'login@ducky.test', 'password' => 'wrongpassword'])
@@ -80,13 +92,19 @@ it('rejects invalid credentials', function () {
 it('rejects empty validation fields on register', function () {
     $this->database->setup();
 
-    $this->http->post('/register', ['email' => '', 'password' => ''])->assertHasValidationError('email');
+    $this->http->post('/register', ['username' => '', 'email' => '', 'password' => ''])->assertHasValidationError('email');
+});
+
+it('rejects missing username on register', function () {
+    $this->database->setup();
+
+    $this->http->post('/register', ['username' => '', 'email' => 'test@ducky.test', 'password' => 'password1234'])->assertHasValidationError('username');
 });
 
 it('logs out and redirects to login', function () {
     $this->database->setup();
 
-    $user = User::create(email: 'auth@ducky.test', password: 'password1234');
+    $user = User::create(email: 'auth@ducky.test', password: 'password1234', username: 'authuser');
     $this->container->get(Authenticator::class)->authenticate($user);
 
     $this->http->post('/logout')->assertRedirect('/login');

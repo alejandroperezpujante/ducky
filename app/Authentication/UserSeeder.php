@@ -18,6 +18,7 @@ final class UserSeeder implements DatabaseSeeder
         User::create(
             email: 'demo@ducky.test',
             password: 'password',
+            username: 'demo',
         );
     }
 }
