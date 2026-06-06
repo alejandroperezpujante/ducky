@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Post;
+namespace App\Concerns\Nanoid;
 
 use Attribute;
 
@@ -22,7 +22,5 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class Nanoid
 {
-    public function __construct(
-        public int $size = 21,
-    ) {}
+    public function __construct(public int $size = 21) {}
 }

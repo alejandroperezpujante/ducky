@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Post;
+namespace App\Concerns\Nanoid;
 
 use ReflectionClass;
 
