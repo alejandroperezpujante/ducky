@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Post;
 
+use App\Home\HomeController;
 use Tempest\DateTime\DateTime;
-use Tempest\Http\Request;
 use Tempest\Http\Responses\Back;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Router\Delete;
@@ -19,26 +19,6 @@ use function Tempest\View\view;
 
 final readonly class PostController
 {
-    #[Get('/')]
-    public function index(Request $request): View
-    {
-        $page = max(1, (int) ($request->get('page') ?? 1));
-        $posts = Post::select()
-            ->paginate(itemsPerPage: 10, currentPage: $page)
-            ->map(
-                static fn (Post $post) => [
-                    'post' => $post,
-                    'editUrl' => uri([self::class, 'edit'], post: $post->slug),
-                    'deleteUrl' => uri(
-                        [self::class, 'delete'],
-                        post: $post->slug,
-                    ),
-                ],
-            );
-
-        return view('./post-index.view.php', posts: $posts);
-    }
-
     #[Get('/posts/create')]
     public function create(): View
     {
@@ -56,7 +36,7 @@ final readonly class PostController
             createdAt: DateTime::now(),
         );
 
-        return new Redirect(uri([self::class, 'index']));
+        return new Redirect(uri([HomeController::class, 'index']));
     }
 
     #[Get('/posts/{post}/edit')]
@@ -75,7 +55,7 @@ final readonly class PostController
     {
         $post->update(content: $request->content, updatedAt: DateTime::now());
 
-        return new Redirect(uri([self::class, 'index']));
+        return new Redirect(uri([HomeController::class, 'index']));
     }
 
     #[Delete('/posts/{post}')]
@@ -83,6 +63,6 @@ final readonly class PostController
     {
         $post->delete();
 
-        return new Redirect(uri([self::class, 'index']));
+        return new Redirect(uri([HomeController::class, 'index']));
     }
 }

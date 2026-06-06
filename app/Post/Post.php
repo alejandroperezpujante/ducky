@@ -35,6 +35,6 @@ final class Post implements Bindable
 
     public static function resolve(string $input): ?self
     {
-        return query(self::class)->select()->where("slug = ?", $input)->first();
+        return query(self::class)->select()->where('slug = ?', $input)->first();
     }
 }

@@ -8,18 +8,6 @@ use Tempest\DateTime\DateTime;
 
 use function Tempest\Router\uri;
 
-it('lists posts on the home page', function () {
-    $this->database->setup();
-
-    Post::create(
-        slug: 'test-post',
-        content: 'Hello from the test post',
-        createdAt: DateTime::now(),
-    );
-
-    $this->http->get('/')->assertOk()->assertSee('Hello from the test post');
-});
-
 it('shows the create form', function () {
     $this->database->setup();
 
@@ -86,18 +74,4 @@ it('deletes a post', function () {
     $this->http->delete(uri([PostController::class, 'delete'], post: $post->slug))->assertRedirect();
 
     $this->database->assertTableDoesNotHaveRow('posts', content: 'To be deleted');
-});
-
-it('paginates posts on second page', function () {
-    $this->database->setup();
-
-    foreach (range(1, 12) as $i) {
-        Post::create(
-            slug: "post-{$i}",
-            content: "Post number {$i}",
-            createdAt: DateTime::now(),
-        );
-    }
-
-    $this->http->get('/', query: ['page' => 2])->assertOk()->assertSee('Post number 11');
 });
