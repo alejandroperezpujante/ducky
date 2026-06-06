@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string|null $action
  * @var string|Method|null $method
@@ -16,7 +18,7 @@ if ($method instanceof Method) {
 }
 
 $needsSpoofing = Method::trySpoofingFrom($method) instanceof Method;
-$formMethod = $needsSpoofing ? "POST" : $method;
+$formMethod = $needsSpoofing ? 'POST' : $method;
 ?>
 
 <form :action="$action" :method="$formMethod" :enctype="$enctype">

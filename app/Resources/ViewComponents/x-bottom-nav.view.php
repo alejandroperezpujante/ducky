@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string|null $active One of: 'home', 'feed', 'create', 'messages', 'profile', 'identify', 'preferences'
  * @var bool $authenticated Whether the current visitor is authenticated
@@ -8,18 +10,13 @@
 $active ??= null;
 $authenticated ??= false;
 
-$base =
-    "flex flex-col items-center gap-0.5 py-3 flex-1 text-xs font-semibold transition-colors";
-$homeClass = $base . ($active === "home" ? " text-coral-500" : " text-ink-400");
-$feedClass = $base . ($active === "feed" ? " text-coral-500" : " text-ink-400");
-$messagesClass =
-    $base . ($active === "messages" ? " text-coral-500" : " text-ink-400");
-$profileClass =
-    $base . ($active === "profile" ? " text-coral-500" : " text-ink-400");
-$identifyClass =
-    $base . ($active === "identify" ? " text-coral-500" : " text-ink-400");
-$preferencesClass =
-    $base . ($active === "preferences" ? " text-coral-500" : " text-ink-400");
+$base = 'flex flex-col items-center gap-0.5 py-3 flex-1 text-xs font-semibold transition-colors';
+$homeClass = $base . ($active === 'home' ? ' text-coral-500' : ' text-ink-400');
+$feedClass = $base . ($active === 'feed' ? ' text-coral-500' : ' text-ink-400');
+$messagesClass = $base . ($active === 'messages' ? ' text-coral-500' : ' text-ink-400');
+$profileClass = $base . ($active === 'profile' ? ' text-coral-500' : ' text-ink-400');
+$identifyClass = $base . ($active === 'identify' ? ' text-coral-500' : ' text-ink-400');
+$preferencesClass = $base . ($active === 'preferences' ? ' text-coral-500' : ' text-ink-400');
 ?>
 
 <nav class="fixed bottom-0 inset-x-0 z-50" aria-label="Main navigation">

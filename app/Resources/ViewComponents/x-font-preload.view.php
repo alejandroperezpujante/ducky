@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Emits a <link rel="preload"> for the Nunito latin subset, resolving the URL
  * via the Vite dev-server bridge (in dev) or the manifest (in prod).

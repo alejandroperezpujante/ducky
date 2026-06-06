@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string $is
  * @var \Tempest\Support\Arr\ImmutableArray $attributes

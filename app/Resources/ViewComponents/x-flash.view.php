@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string|null $success Flash success message
  * @var string|null $error   Flash error message

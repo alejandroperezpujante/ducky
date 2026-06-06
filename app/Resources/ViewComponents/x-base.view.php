@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string|null $title The webpage's title
  * @var string|null $active Active nav item: 'home', 'feed', 'create', 'messages', 'profile', 'identify', 'preferences'
