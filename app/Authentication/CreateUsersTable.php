@@ -18,8 +18,10 @@ final class CreateUsersTable implements MigratesUp, MigratesDown
     {
         return new CreateTableStatement('users')
             ->primary()
+            ->varchar('publicId')
             ->varchar('email')
             ->varchar('password')
+            ->unique('publicId')
             ->unique('email');
     }
 

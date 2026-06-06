@@ -4,20 +4,33 @@ declare(strict_types=1);
 
 namespace App\Authentication;
 
+use App\Concerns\Nanoid\HasNanoid;
+use App\Concerns\Nanoid\Nanoid;
 use App\Post\Post;
 use SensitiveParameter;
 use Tempest\Auth\Authentication\Authenticatable;
 use Tempest\Database\Hashed;
 use Tempest\Database\HasMany;
 use Tempest\Database\IsDatabaseModel;
+use Tempest\Database\PrimaryKey;
 use Tempest\Mapper\Hidden;
+use Tempest\Router\Bindable;
+use Tempest\Router\IsBindingValue;
 use Tempest\Validation\Rules\IsEmail;
+use Tempest\Validation\SkipValidation;
 
-final class User implements Authenticatable
+final class User implements Authenticatable, Bindable
 {
-    use IsDatabaseModel;
+    use IsDatabaseModel, HasNanoid {
+        HasNanoid::create insteadof IsDatabaseModel;
+    }
+
+    #[IsBindingValue, SkipValidation, Hidden]
+    public PrimaryKey $id;
 
     public function __construct(
+        #[Nanoid]
+        public string $publicId,
         #[IsEmail]
         public string $email,
         #[Hashed, Hidden, SensitiveParameter]
@@ -26,4 +39,9 @@ final class User implements Authenticatable
         #[HasMany]
         public array $posts = [],
     ) {}
+
+    public static function resolve(string $input): ?self
+    {
+        return self::find(publicId: $input)->first();
+    }
 }
