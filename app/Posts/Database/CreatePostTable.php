@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Posts\Database;
 
+use App\Posts\Post;
 use Tempest\Database\MigratesDown;
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
