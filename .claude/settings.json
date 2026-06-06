@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer pest 2>&1)",
+      "Bash(composer fmt 2>&1)",
+      "Bash(composer lint 2>&1)",
+      "Bash(composer qa 2>&1)",
+
+      "Bash(php tempest discovery:generate 2>&1)",
+      "Bash(php tempest cache:clear --all 2>&1)",
+
+      "Bash(docker ps 2>&1)"
+    ],
+    "deny": []
+  }
+}
