@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Posts\Database;
+
+use Tempest\Database\MigratesDown;
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
+use Tempest\Database\QueryStatements\DropTableStatement;
+
+final class CreatePostTable implements MigratesUp, MigratesDown
+{
+    private(set) string $name = '2026-06-05_create_post_table';
+
+    public function up(): QueryStatement
+    {
+        return CreateTableStatement::forModel(Post::class)
+            ->primary()
+            ->varchar('slug')
+            ->text('content', length: 140)
+            ->belongsTo('posts.author_id', 'users.id')
+            ->datetime('createdAt')
+            ->datetime('updatedAt', nullable: true)
+            ->unique('slug');
+    }
+
+    public function down(): QueryStatement
+    {
+        return DropTableStatement::forModel(Post::class);
+    }
+}

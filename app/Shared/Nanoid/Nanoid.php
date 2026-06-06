@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Nanoid;
+namespace App\Shared\Nanoid;
 
 use Attribute;
 

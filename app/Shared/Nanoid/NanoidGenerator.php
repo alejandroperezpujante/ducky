@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Nanoid;
+namespace App\Shared\Nanoid;
 
 use Hidehalo\Nanoid\Client;
 use Tempest\Container\Singleton;
