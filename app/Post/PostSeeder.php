@@ -9,8 +9,6 @@ use Tempest\Database\DatabaseSeeder;
 use Tempest\DateTime\DateTime;
 use UnitEnum;
 
-use function Tempest\Database\query;
-
 final class PostSeeder implements DatabaseSeeder
 {
     public function run(string|UnitEnum|null $database): void
@@ -19,7 +17,7 @@ final class PostSeeder implements DatabaseSeeder
             return;
         }
 
-        $demo = query(User::class)->select()->where('email = ?', 'demo@ducky.test')->first();
+        $demo = User::find(email: 'demo@ducky.test')->first();
 
         if ($demo === null) {
             return;

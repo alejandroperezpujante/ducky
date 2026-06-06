@@ -17,8 +17,6 @@ use Tempest\Router\IsBindingValue;
 use Tempest\Validation\Rules\HasLength;
 use Tempest\Validation\SkipValidation;
 
-use function Tempest\Database\query;
-
 final class Post implements Bindable
 {
     use IsDatabaseModel, HasNanoid {
@@ -28,20 +26,21 @@ final class Post implements Bindable
     #[IsBindingValue, SkipValidation, Hidden]
     public PrimaryKey $id;
 
-    #[Nanoid]
-    public string $slug;
-
-    #[HasLength(min: 1)]
-    public string $content;
-
-    #[BelongsTo]
-    public User $author;
-
-    public DateTime $createdAt;
-    public ?DateTime $updatedAt = null;
+    public function __construct(
+        #[Nanoid]
+        public string $slug,
+        #[HasLength(min: 1)]
+        public string $content,
+        #[BelongsTo]
+        public User $author,
+        public DateTime $createdAt,
+        public ?DateTime $updatedAt = null,
+    ) {}
 
     public static function resolve(string $input): ?self
     {
-        return query(self::class)->select()->with('author')->where('slug = ?', $input)->first();
+        return self::find(slug: $input)
+            ->with('author')
+            ->first();
     }
 }
