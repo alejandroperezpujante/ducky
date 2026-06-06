@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace App\Post;
 
+use App\Authentication\User;
 use Tempest\Database\DatabaseSeeder;
 use Tempest\DateTime\DateTime;
 use UnitEnum;
+
+use function Tempest\Database\query;
 
 final class PostSeeder implements DatabaseSeeder
 {
     public function run(string|UnitEnum|null $database): void
     {
         if (Post::count()->execute() > 0) {
+            return;
+        }
+
+        $demo = query(User::class)->select()->where('email = ?', 'demo@ducky.test')->first();
+
+        if ($demo === null) {
             return;
         }
 
@@ -34,6 +43,7 @@ final class PostSeeder implements DatabaseSeeder
         foreach ($samples as $content) {
             Post::create(
                 content: $content,
+                author: $demo,
                 createdAt: DateTime::now(),
             );
         }

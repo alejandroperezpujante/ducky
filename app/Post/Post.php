@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Post;
 
+use App\Authentication\User;
+use App\Concerns\Nanoid\HasNanoid;
+use App\Concerns\Nanoid\Nanoid;
+use Tempest\Database\BelongsTo;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\PrimaryKey;
 use Tempest\DateTime\DateTime;
@@ -12,8 +16,6 @@ use Tempest\Router\Bindable;
 use Tempest\Router\IsBindingValue;
 use Tempest\Validation\Rules\HasLength;
 use Tempest\Validation\SkipValidation;
-use App\Concerns\Nanoid\HasNanoid;
-use App\Concerns\Nanoid\Nanoid;
 
 use function Tempest\Database\query;
 
@@ -32,11 +34,14 @@ final class Post implements Bindable
     #[HasLength(min: 1)]
     public string $content;
 
+    #[BelongsTo]
+    public User $author;
+
     public DateTime $createdAt;
     public ?DateTime $updatedAt = null;
 
     public static function resolve(string $input): ?self
     {
-        return query(self::class)->select()->where("slug = ?", $input)->first();
+        return query(self::class)->select()->with('author')->where('slug = ?', $input)->first();
     }
 }

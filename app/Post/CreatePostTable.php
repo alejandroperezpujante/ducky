@@ -20,6 +20,7 @@ final class CreatePostTable implements MigratesUp, MigratesDown
             ->primary()
             ->varchar('slug')
             ->text('content', length: 140)
+            ->belongsTo('posts.author_id', 'users.id')
             ->datetime('createdAt')
             ->datetime('updatedAt', nullable: true)
             ->unique('slug');

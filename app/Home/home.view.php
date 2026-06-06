@@ -27,7 +27,7 @@
                                 <p class="text-sm text-ink-800 leading-relaxed">{{ $row['post']->content }}</p>
                                 <span class="text-xs text-ink-400">{{ $row['post']->createdAt }}</span>
                             </div>
-                            <div class="flex items-center gap-2 shrink-0">
+                            <div :if="$row['canModify']" class="flex items-center gap-2 shrink-0">
                                 <a :href="$row['editUrl']" class="text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">
                                     Edit
                                 </a>
