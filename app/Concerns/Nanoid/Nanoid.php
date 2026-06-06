@@ -22,5 +22,7 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class Nanoid
 {
-    public function __construct(public int $size = 21) {}
+    public function __construct(
+        public int $size = 21,
+    ) {}
 }

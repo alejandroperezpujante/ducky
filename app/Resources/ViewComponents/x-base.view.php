@@ -2,10 +2,15 @@
 
 /**
  * @var string|null $title The webpage's title
- * @var string|null $active Active nav item: 'home', 'feed', 'create', 'profile'
+ * @var string|null $active Active nav item: 'home', 'feed', 'create', 'messages', 'profile', 'identify', 'preferences'
  */
 
+use Tempest\Auth\Authentication\Authenticator;
+
+use function Tempest\Container\get;
+
 $active ??= null;
+$authenticated = get(Authenticator::class)->current() !== null;
 ?>
 
 <!doctype html>
@@ -37,7 +42,7 @@ $active ??= null;
 <div class="pb-24">
     <x-slot/>
 </div>
-<x-bottom-nav :active="$active"/>
+<x-bottom-nav :active="$active" :authenticated="$authenticated"/>
 <x-slot name="scripts"/>
 </body>
 </html>
