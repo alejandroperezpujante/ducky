@@ -8,21 +8,24 @@
 $active ??= null;
 $authenticated ??= false;
 
-$base = 'flex flex-col items-center gap-0.5 py-3 flex-1 text-xs font-semibold transition-colors';
-$homeClass = $base . ($active === 'home' ? ' text-coral-500' : ' text-ink-400');
-$feedClass = $base . ($active === 'feed' ? ' text-coral-500' : ' text-ink-400');
-$messagesClass = $base . ($active === 'messages' ? ' text-coral-500' : ' text-ink-400');
-$profileClass = $base . ($active === 'profile' ? ' text-coral-500' : ' text-ink-400');
-$identifyClass = $base . ($active === 'identify' ? ' text-coral-500' : ' text-ink-400');
-$preferencesClass = $base . ($active === 'preferences' ? ' text-coral-500' : ' text-ink-400');
+$base =
+    "flex flex-col items-center gap-0.5 py-3 flex-1 text-xs font-semibold transition-colors";
+$homeClass = $base . ($active === "home" ? " text-coral-500" : " text-ink-400");
+$feedClass = $base . ($active === "feed" ? " text-coral-500" : " text-ink-400");
+$messagesClass =
+    $base . ($active === "messages" ? " text-coral-500" : " text-ink-400");
+$profileClass =
+    $base . ($active === "profile" ? " text-coral-500" : " text-ink-400");
+$identifyClass =
+    $base . ($active === "identify" ? " text-coral-500" : " text-ink-400");
+$preferencesClass =
+    $base . ($active === "preferences" ? " text-coral-500" : " text-ink-400");
 ?>
 
 <nav class="fixed bottom-0 inset-x-0 z-50" aria-label="Main navigation">
     <div class="bg-white/90 backdrop-blur-md border-t border-cream-200 pb-[env(safe-area-inset-bottom,0px)]">
         <div class="max-w-2xl mx-auto flex items-end justify-around">
-
-            <?php if ($authenticated): ?>
-
+            <x-template :if="$authenticated">
                 <a href="/" :class="$homeClass">
                     <x-icon :name="'tabler:home'" :class="'w-6 h-6'"/>
                     <span>Home</span>
@@ -50,7 +53,9 @@ $preferencesClass = $base . ($active === 'preferences' ? ' text-coral-500' : ' t
                     <span>Profile</span>
                 </a>
 
-            <?php else: ?>
+            </x-template>
+
+            <x-template :else>
 
                 <a href="/" :class="$homeClass">
                     <x-icon :name="'tabler:home'" :class="'w-6 h-6'"/>
@@ -66,9 +71,7 @@ $preferencesClass = $base . ($active === 'preferences' ? ' text-coral-500' : ' t
                     <x-icon :name="'tabler:settings'" :class="'w-6 h-6'"/>
                     <span>Preferences</span>
                 </a>
-
-            <?php endif; ?>
-
+            </x-template>
         </div>
     </div>
 </nav>

@@ -16,13 +16,16 @@ if ($method instanceof Method) {
 }
 
 $needsSpoofing = Method::trySpoofingFrom($method) instanceof Method;
-$formMethod = $needsSpoofing ? 'POST' : $method;
+$formMethod = $needsSpoofing ? "POST" : $method;
 ?>
 
 <form :action="$action" :method="$formMethod" :enctype="$enctype">
-    <?php if ($needsSpoofing): ?>
-        <input type="hidden" name="_method" value="<?= htmlspecialchars($method) ?>">
-    <?php endif; ?>
+    <input
+        :if="$needsSpoofing"
+        type="hidden"
+        name="_method"
+        value="<?= htmlspecialchars($method) ?>"
+    >
 
     <x-slot />
 </form>
