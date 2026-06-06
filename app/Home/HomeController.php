@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Home;
 
-use App\Post\Post;
-use App\Post\PostController;
+use App\Posts\Post;
+use App\Posts\PostController;
 use Tempest\Auth\AccessControl\AccessControl;
 use Tempest\Http\Request;
 use Tempest\Router\Get;
