@@ -40,15 +40,29 @@ final readonly class EmailChangeController
     /**
      * Step 1: User confirms current password → receive email with signed link.
      */
-    #[PostRoute('/profile/email/request', middleware: [MustBeAuthenticated::class])]
-    public function requestChange(ConfirmPasswordRequest $request): Redirect|Back
-    {
+    #[
+        PostRoute(
+            '/profile/email/request',
+            middleware: [MustBeAuthenticated::class],
+        ),
+    ]
+    public function requestChange(
+        ConfirmPasswordRequest $request,
+    ): Redirect|Back {
         /** @var User $user */
         $user = $this->authenticator->current();
-        $userWithPassword = User::find(id: $user->id->value)->include('password')->first();
+        $userWithPassword = User::find(id: $user->id->value)
+            ->include('password')
+            ->first();
 
-        if (! $this->passwordHasher->verify($request->currentPassword, $userWithPassword->password)) {
-            $this->session->flash('error', 'Incorrect password. Please try again.');
+        if (! $this->passwordHasher->verify(
+            $request->currentPassword,
+            $userWithPassword->password,
+        )) {
+            $this->session->flash(
+                'error',
+                'Incorrect password. Please try again.',
+            );
 
             return new Back(uri([ProfileController::class, 'show']));
         }
@@ -58,13 +72,22 @@ final readonly class EmailChangeController
             duration: Duration::hours(1),
         );
 
-        $this->mailer->send(new GenericEmail(
-            subject: 'Change your email address',
-            to: $user->email,
-            html: view('./emails/email-change.view.php', url: $signedUrl, user: $user),
-        ));
+        $this->mailer->send(
+            new GenericEmail(
+                subject: 'Change your email address',
+                to: $user->email,
+                html: view(
+                    './emails/email-change.view.php',
+                    url: $signedUrl,
+                    user: $user,
+                ),
+            ),
+        );
 
-        $this->session->flash('success', 'A confirmation link has been sent to ' . $user->email . '. It expires in 1 hour.');
+        $this->session->flash(
+            'success',
+            'A confirmation link has been sent to ' . $user->email . '. It expires in 1 hour.',
+        );
 
         return new Redirect(uri([ProfileController::class, 'show']));
     }
@@ -79,7 +102,10 @@ final readonly class EmailChangeController
         $rawRequest = get(Request::class);
 
         if (! $this->uriGenerator->hasValidSignature($rawRequest)) {
-            $this->session->flash('error', 'This link is invalid or has expired. Please request a new one.');
+            $this->session->flash(
+                'error',
+                'This link is invalid or has expired. Please request a new one.',
+            );
 
             return new Redirect(uri([ProfileController::class, 'show']));
         }
@@ -94,23 +120,36 @@ final readonly class EmailChangeController
     /**
      * Step 3: User submits new email + current password → update and invalidate sessions.
      */
-    #[PostRoute('/profile/email/change', middleware: [MustBeAuthenticated::class])]
+    #[
+        PostRoute(
+            '/profile/email/change',
+            middleware: [MustBeAuthenticated::class],
+        ),
+    ]
     public function submit(ChangeEmailRequest $request): Redirect|Back
     {
         /** @var Request $rawRequest */
         $rawRequest = get(Request::class);
 
         if (! $this->uriGenerator->hasValidSignature($rawRequest)) {
-            $this->session->flash('error', 'This link is invalid or has expired. Please request a new one.');
+            $this->session->flash(
+                'error',
+                'This link is invalid or has expired. Please request a new one.',
+            );
 
             return new Redirect(uri([ProfileController::class, 'show']));
         }
 
         /** @var User $user */
         $user = $this->authenticator->current();
-        $userWithPassword = User::find(id: $user->id->value)->include('password')->first();
+        $userWithPassword = User::find(id: $user->id->value)
+            ->include('password')
+            ->first();
 
-        if (! $this->passwordHasher->verify($request->currentPassword, $userWithPassword->password)) {
+        if (! $this->passwordHasher->verify(
+            $request->currentPassword,
+            $userWithPassword->password,
+        )) {
             $this->session->flash('error', 'Incorrect password.');
 
             return new Back($rawRequest->uri);
@@ -119,7 +158,10 @@ final readonly class EmailChangeController
         $emailTaken = User::find(email: $request->newEmail)->first();
 
         if ($emailTaken !== null && (string) $emailTaken->id->value !== (string) $user->id->value) {
-            $this->session->flash('error', 'That email address is already in use.');
+            $this->session->flash(
+                'error',
+                'That email address is already in use.',
+            );
 
             return new Back($rawRequest->uri);
         }
@@ -129,7 +171,10 @@ final readonly class EmailChangeController
         $this->sessionInvalidator->invalidateAllFor($user);
         $this->authenticator->deauthenticate();
 
-        $this->session->flash('success', 'Your email has been updated. Please sign in again.');
+        $this->session->flash(
+            'success',
+            'Your email has been updated. Please sign in again.',
+        );
 
         return new Redirect('/login');
     }

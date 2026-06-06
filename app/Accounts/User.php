@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Accounts;
 
+use App\Posts\Post;
 use App\Shared\Nanoid\HasNanoid;
 use App\Shared\Nanoid\Nanoid;
-use App\Posts\Post;
 use SensitiveParameter;
 use Tempest\Auth\Authentication\Authenticatable;
 use Tempest\Database\Hashed;
 use Tempest\Database\HasMany;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\PrimaryKey;
+use Tempest\Database\Virtual;
 use Tempest\Mapper\Hidden;
 use Tempest\Router\Bindable;
 use Tempest\Router\IsBindingValue;
@@ -29,26 +30,22 @@ final class User implements Authenticatable, Bindable
     public PrimaryKey $id;
 
     public function __construct(
-        #[Nanoid]
-        public string $publicId,
-        #[IsEmail]
-        public string $email,
-        #[Hashed, Hidden, SensitiveParameter]
-        public ?string $password,
+        #[Nanoid] public string $publicId,
+        #[IsEmail] public string $email,
+        #[Hashed, Hidden, SensitiveParameter] public ?string $password,
         public ?string $username = null,
         public ?string $displayName = null,
         public ?string $avatarPath = null,
         /** @var Post[] */
-        #[HasMany]
-        public array $posts = [],
+        #[HasMany] public array $posts = [],
     ) {}
 
-    public function name(): string
-    {
-        return $this->displayName ?? $this->username ?? '';
+    #[Virtual]
+    public string $name {
+        get => $this->displayName ?? ($this->username ?? "");
     }
 
-    public static function resolve(string $input): ?self
+    public static function resolve(string $input): ?static
     {
         return self::find(publicId: $input)->first();
     }

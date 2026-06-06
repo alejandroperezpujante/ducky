@@ -1,18 +1,19 @@
 <?php
 
-/**
- * @var \App\Authentication\User $user
- * @var string|null $avatarUrl  Absolute URL to the avatar image, or null
- * @var string|null $success Flash success message
- * @var string|null $error   Flash error message
- */
+declare(strict_types=1);
 
-use App\Accounts\Profile\AccountDeletionController;
+use App\Accounts\Profile\ProfileController;
 use App\Accounts\Profile\EmailChangeController;
 use App\Accounts\Profile\PasswordChangeController;
-use App\Accounts\Profile\ProfileController;
-
+use App\Accounts\Profile\AccountDeletionController;
 use function Tempest\Router\uri;
+
+/**
+ * @var \App\Accounts\User $user
+ * @var string|null $avatarUrl  Absolute URL to the avatar image, or null
+ * @var string|null $success    Flash success message
+ * @var string|null $error      Flash error message
+ */
 
 $success ??= null;
 $error ??= null;
@@ -42,7 +43,7 @@ $avatarUrl ??= null;
                     </div>
 
                     <h1 class="text-4xl sm:text-5xl font-extrabold text-ink-900 text-balance">
-                        {{ $user->name() !== '' ? $user->name() : 'My Profile' }}
+                        {{ $user->name !== '' ? $user->name : 'My Profile' }}
                     </h1>
                     <p :if="$user->username !== null" class="mt-1 text-ink-400 text-sm">@{{ $user->username }}</p>
                 </div>

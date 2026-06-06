@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Accounts\Authentication;
 
+use App\Accounts\User;
 use Tempest\Auth\Authentication\Authenticator;
 use Tempest\Cryptography\Password\PasswordHasher;
 use Tempest\Http\Responses\Back;
@@ -59,7 +60,10 @@ final readonly class AuthController
         $emailExists = User::find(email: $request->email)->first();
 
         if ($emailExists !== null) {
-            $this->session->flash('error', 'An account with that email already exists.');
+            $this->session->flash(
+                'error',
+                'An account with that email already exists.',
+            );
 
             return new Back('/register');
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Accounts\Authentication;
 
+use App\Accounts\User;
 use Tempest\Auth\Authentication\SessionAuthenticator;
 use Tempest\Http\Session\Managers\DatabaseSession;
 

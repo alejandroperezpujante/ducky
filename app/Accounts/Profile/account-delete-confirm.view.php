@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @var string      $formAction The signed POST URL (preserves signature + expires_at)
  * @var string|null $error      Flash error message

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
 /**
  * @var string $url   The signed confirmation URL
- * @var \App\Authentication\User $user
+ * @var \App\Accounts\User $user
  */
 ?>
 <!DOCTYPE html>
@@ -24,9 +25,11 @@
 <body>
 <div class="card">
     <h1>Change your password</h1>
-    <p>Hi <?= htmlspecialchars($user->name() ?: $user->email) ?>,</p>
+    <p>Hi <?= htmlspecialchars($user->name ?: $user->email) ?>,</p>
     <p>We received a request to change the password on your Ducky account. Click the button below to set a new password. This link expires in <strong>1 hour</strong>. All active sessions will be signed out once the change is made.</p>
-    <p><a href="<?= htmlspecialchars($url) ?>" class="btn">Change Password</a></p>
+    <p><a href="<?= htmlspecialchars(
+        $url,
+    ) ?>" class="btn">Change Password</a></p>
     <p>If you didn't request this, please change your password immediately and contact support.</p>
     <div class="footer">
         <p>Or copy this link into your browser:</p>
