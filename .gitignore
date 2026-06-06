@@ -4,7 +4,8 @@ vendor/
 /public/main.css
 /package-lock.json
 /.php-cs-fixer.cache
-.env
+.env*
+!.env.example
 .idea
 .phpunit.result.cache
 log/
