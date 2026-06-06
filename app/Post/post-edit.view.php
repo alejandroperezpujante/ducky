@@ -7,13 +7,13 @@
 
 ?>
 
-<x-base :title="'Edit Post'">
+<x-base :title="'Edit Post'" :active="'create'">
     <main class="w-full">
         <div class="isolate">
 
-            <section class="flex flex-col items-center px-6 pt-24 pb-10 text-center">
+            <section class="flex flex-col items-center px-6 pt-10 sm:pt-16 pb-10 text-center">
                 <div class="max-w-2xl w-full">
-                    <h1 class="text-6xl sm:text-7xl text-balance">Edit Post</h1>
+                    <h1 class="text-4xl sm:text-6xl text-balance">Edit Post</h1>
                     <p class="mt-2 text-xs text-ink-400 font-mono">{{ $post->slug }}</p>
                 </div>
             </section>

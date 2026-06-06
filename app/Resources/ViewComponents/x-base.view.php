@@ -2,7 +2,10 @@
 
 /**
  * @var string|null $title The webpage's title
+ * @var string|null $active Active nav item: 'home', 'feed', 'create', 'profile'
  */
+
+$active ??= null;
 ?>
 
 <!doctype html>
@@ -31,7 +34,10 @@
     ></div>
 </div>
 
-<x-slot/>
+<div class="pb-24">
+    <x-slot/>
+</div>
+<x-bottom-nav :active="$active"/>
 <x-slot name="scripts"/>
 </body>
 </html>
