@@ -1,10 +1,8 @@
 <?php
-
 /**
  * @var \Tempest\Support\Paginator\PaginatedData $posts
  * Each item in $posts->data is an array with keys: post, editUrl, deleteUrl
  */
-
 ?>
 
 <x-base :title="'Posts'" :active="'home'">
@@ -23,7 +21,6 @@
                     <li :foreach="$posts->data as $row" class="bg-white rounded-bubble shadow-soft p-4 flex flex-col gap-2">
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex flex-col gap-1 min-w-0">
-                                <span class="text-xs text-ink-400 font-mono">{{ $row['post']->slug }}</span>
                                 <p class="text-sm text-ink-800 leading-relaxed">{{ $row['post']->content }}</p>
                                 <span class="text-xs text-ink-400">{{ $row['post']->createdAt }}</span>
                             </div>
