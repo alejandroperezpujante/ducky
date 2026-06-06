@@ -13,7 +13,6 @@ use Tempest\Router\Get;
 use Tempest\Router\Post as PostRoute;
 use Tempest\View\View;
 
-use function Tempest\Database\query;
 use function Tempest\View\view;
 
 final readonly class AuthController
@@ -33,10 +32,8 @@ final readonly class AuthController
     #[PostRoute('/login', middleware: [RedirectIfAuthenticated::class])]
     public function login(LoginRequest $request): Redirect|Back
     {
-        $user = query(User::class)
-            ->select()
+        $user = User::find(email: $request->email)
             ->include('password')
-            ->where('email = ?', $request->email)
             ->first();
 
         if ($user === null || ! $this->passwordHasher->verify($request->password, $user->password)) {
@@ -59,10 +56,7 @@ final readonly class AuthController
     #[PostRoute('/register', middleware: [RedirectIfAuthenticated::class])]
     public function register(RegisterRequest $request): Redirect|Back
     {
-        $exists = query(User::class)
-            ->select()
-            ->where('email = ?', $request->email)
-            ->first();
+        $exists = User::find(email: $request->email)->first();
 
         if ($exists !== null) {
             $this->session->flash('error', 'An account with that email already exists.');
