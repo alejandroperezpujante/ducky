@@ -27,15 +27,18 @@ final class Post implements Bindable
     public PrimaryKey $id;
 
     public function __construct(
-        #[Nanoid] public string $slug,
-        #[HasLength(min: 1)] public string $content,
-        #[BelongsTo] public User $author,
+        #[Nanoid]
+        public string $slug,
+        #[HasLength(min: 1)]
+        public string $content,
+        #[BelongsTo]
+        public User $author,
         public DateTime $createdAt,
         public ?DateTime $updatedAt = null,
     ) {}
 
     public static function resolve(string $input): ?static
     {
-        return self::find(slug: $input)->with("author")->first();
+        return self::find(slug: $input)->with('author')->first();
     }
 }

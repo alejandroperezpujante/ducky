@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @var string $url   The signed confirmation URL
  * @var \App\Accounts\User $user

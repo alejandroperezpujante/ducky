@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Accounts\Profile\ProfileController;
-use App\Accounts\Profile\EmailChangeController;
-use App\Accounts\Profile\PasswordChangeController;
-use App\Accounts\Profile\AccountDeletionController;
-use function Tempest\Router\uri;
-
 /**
  * @var \App\Accounts\User $user
  * @var string|null $avatarUrl  Absolute URL to the avatar image, or null

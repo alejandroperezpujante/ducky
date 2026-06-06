@@ -30,19 +30,23 @@ final class User implements Authenticatable, Bindable
     public PrimaryKey $id;
 
     public function __construct(
-        #[Nanoid] public string $publicId,
-        #[IsEmail] public string $email,
-        #[Hashed, Hidden, SensitiveParameter] public ?string $password,
+        #[Nanoid]
+        public string $publicId,
+        #[IsEmail]
+        public string $email,
+        #[Hashed, Hidden, SensitiveParameter]
+        public ?string $password,
         public ?string $username = null,
         public ?string $displayName = null,
         public ?string $avatarPath = null,
         /** @var Post[] */
-        #[HasMany] public array $posts = [],
+        #[HasMany]
+        public array $posts = [],
     ) {}
 
     #[Virtual]
     public string $name {
-        get => $this->displayName ?? ($this->username ?? "");
+        get => $this->displayName ?? $this->username ?? '';
     }
 
     public static function resolve(string $input): ?static
