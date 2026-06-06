@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \Tempest\Support\Paginator\PaginatedData $posts
  * Each item in $posts->data is an array with keys: post, editUrl, deleteUrl
