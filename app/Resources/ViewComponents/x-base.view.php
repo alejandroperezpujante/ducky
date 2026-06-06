@@ -21,7 +21,7 @@ $authenticated = get(Authenticator::class)->current() !== null;
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <?= '<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>' ?>
 
     <x-slot name="head"/>
 
