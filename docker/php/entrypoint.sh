@@ -19,5 +19,8 @@ php "$TEMPEST" discovery:generate --no-interaction
 # php "$TEMPEST" static:clean --force
 # php "$TEMPEST" static:generate --allow-dead-links
 
+echo "[entrypoint] Normalizing cache/database ownership..."
+chown -R www-data:www-data /var/www/html/.tempest /var/www/html/database
+
 echo "[entrypoint] Starting PHP-FPM..."
 exec "$@"
